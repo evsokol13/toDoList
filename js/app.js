@@ -46,3 +46,32 @@ function displayMessages() {
         todo.innerHTML = displayMessage
     })
 }
+
+todo.addEventListener('change', (event) =>{
+    let valueLabel = todo.querySelector(
+        '[for=' + event.target.getAtttribute('id') + ']'
+    ).innerHTML
+
+    todoList.forEach((item, i) => {
+        if (item.todo === valueLabel) {
+            item.checked = !item.checked
+            localStorage.setItem('todo', JSON.stringify(todoList))
+        }
+    })
+})
+
+todo.addEventListener('contextmenu', (event) => {
+    event.preventDefault()
+    todoList.forEach((item, i) => {
+        if (item.todo === event.target.innerHTML) {
+            if (event.todo === event.target.innerHTML) {
+                todoList.slice(i, 1)
+            } else {
+                item.important = !item.important
+            }
+
+            displayMessages()
+            localStorage.setItem('todo', JSON.stringify(todoList))
+        }
+    })
+})
