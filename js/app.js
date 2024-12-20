@@ -5,7 +5,7 @@ let del = document.querySelector('.delete')
 
 let todoList = []
 
-if (localStorage.getItem('todoList')) {
+if (localStorage.getItem('todo')) {
     todoList = JSON.parse(localStorage.getItem('todo'))
     displayMessages()
 }
@@ -21,7 +21,7 @@ addButton.addEventListener('click', function () {
 
     todoList.push(newTodo)
     displayMessages()
-    localStorage.setItem('todoList', JSON.stringify(todoList))
+    localStorage.setItem('todo', JSON.stringify(todoList))
     addMessage.value = ''
 })
 
@@ -39,7 +39,7 @@ function displayMessages() {
         }'>
                 ${item.todo}</label>
 
-                <img class='delete' scr='./icons/delete.png' alt='delete'>
+                <img class='delete' src='./icons/delete.png' alt='delete'>
             </li>
         `
 
