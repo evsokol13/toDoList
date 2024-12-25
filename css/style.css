@@ -15,7 +15,7 @@ body {
     color: red;
 }
 
-.delete {
+.delete, .important-btn {
     height: 20px;
     width: 20px;
 }

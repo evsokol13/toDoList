@@ -37,6 +37,18 @@ function delTask() {
     })
 }
 
+function addImportant() {
+    const importantButtons = document.querySelectorAll('.important-btn')
+    importantButtons.forEach((btn) => {
+        btn.addEventListener('click', (event) => {
+            const index = event.target.dataset.index //индекс из задачи data атрибута
+            todoList[index].important = !todoList[index].important
+            localStorage.setItem('todo', JSON.stringify(todoList))
+            displayMessages()
+        })
+    })
+}
+
 function displayMessages() {
     if (!todoList.length) {
         todo.innerHTML = 'No tasks'
@@ -51,13 +63,16 @@ function displayMessages() {
                 <label for='item${i}' class='${item.important ? 'important' : ''}'>
                 ${item.todo}</label>
 
-                <img class='delete' data-index='${i}' src='./icons/delete.png' alt='delete'>
-
+                <div>
+                    <img class='important-btn' data-index='${i}' src='./icons/important.png' alt='important'>
+                    <img class='delete' data-index='${i}' src='./icons/delete.png' alt='delete'>
+                </div>
             </li>
         `
 
         todo.innerHTML = displayMessage
         delTask()   
+        addImportant()
     })
 }
 
