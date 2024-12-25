@@ -25,25 +25,39 @@ addButton.addEventListener('click', function () {
     addMessage.value = ''
 })
 
+function delTask() {
+    const deleteButtons = document.querySelectorAll('.delete')
+    deleteButtons.forEach((btn) => {
+        btn.addEventListener('click', (event) => {
+            const index = event.target.dataset.index //индекс из задачи data атрибута
+            todoList.splice(index, 1)
+            localStorage.setItem('todo', JSON.stringify(todoList))
+            displayMessages()
+        })
+    })
+}
+
 function displayMessages() {
+    if (!todoList.length) {
+        todo.innerHTML = 'No tasks'
+        return
+    }
+
     let displayMessage = ''
-    if (todoList.length === 0) todo.innerHTML = ''
     todoList.forEach((item, i) => {
         displayMessage += `
             <li>
-                <input type="checkbox" id='item${i}' ${
-            item.checked ? 'checked' : ''
-        }>
-                <label for='item${i}' class='${
-            item.important ? 'important' : ''
-        }'>
+                <input type="checkbox" id='item${i}' ${item.checked ? 'checked' : ''}>
+                <label for='item${i}' class='${item.important ? 'important' : ''}'>
                 ${item.todo}</label>
 
-                <img class='delete' src='./icons/delete.png' alt='delete'>
+                <img class='delete' data-index='${i}' src='./icons/delete.png' alt='delete'>
+
             </li>
         `
 
         todo.innerHTML = displayMessage
+        delTask()   
     })
 }
 

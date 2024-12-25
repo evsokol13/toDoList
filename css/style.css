@@ -11,8 +11,13 @@ body {
 }
 
 .important {
-    font-weight: bold;
+    font-weight: 600;
     color: red;
+}
+
+.delete {
+    height: 20px;
+    width: 20px;
 }
 
 .todo-list {
@@ -52,6 +57,7 @@ button {
 
 .todo {
     padding-left: 0;
+    text-align: center;
 }
 
 .todo li {
@@ -65,11 +71,6 @@ button {
 
 .todo li:not(:last-child) {
     border-bottom: 1px solid #000;
-}
-
-.delete {
-    height: 20px;
-    width: 20px;
 }
 
 input[type="checkbox"] {
