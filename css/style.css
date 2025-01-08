@@ -8,6 +8,7 @@ body {
 .container {
     margin: 0 auto;
     padding-top: 50px;
+    max-width: 800px;
 }
 
 .important {
@@ -15,19 +16,17 @@ body {
     color: red;
 }
 
-.delete, .important-btn {
+.delete, .important-btn, .edit {
     height: 20px;
     width: 20px;
 }
 
 .todo-list {
-    max-width: 500px;
     display: block;
     margin: 0 auto 100px;
     background-color: #1ba39c;
     padding: 30px;
     border-radius: 10px;
-    -webkit-box-shadow: 0 2px 10px 0 #074b83;
     box-shadow: 0 2px 10px 0 #074b83;
 }
 
@@ -40,19 +39,31 @@ h1 {
 }
 
 .create-new-todo {
-    text-align: center
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"],
+button.add {
+    flex: 1;
 }
 
 input[type="text"] {
-    width: 376px;
     padding: 10px;
 }
 
+input[type="text"]:focus {
+    outline: none;
+}
+
 button {
-    margin-top: 2px;
-    width: 400px;
+    outline: none;
+    border: none;
+    margin-top: 20px;
     padding: 10px;
     cursor: pointer;
+    transition: 0.5s ease;
+    font-weight: 600; 
 }
 
 .todo {
@@ -61,12 +72,23 @@ button {
 }
 
 .todo li {
-    padding: 1em;
     list-style-type: none;
     word-break: break-all;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.edit-input {
+    width: 70%;
+    border: none;
+    outline: none;
+    background: #1ba39c;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 6px;
+    margin-right: 1em;
+    cursor: pointer;
 }
 
 .todo li:not(:last-child) {
@@ -82,8 +104,9 @@ input[type='checkbox'],
 label {
     display: inline-block;
     vertical-align: middle;
-    margin: 5px;
+    margin-right: 1em;
     cursor: pointer;
+    margin: 6px;
 }
 
 input[type='checkbox'] + label:before {
@@ -110,4 +133,44 @@ input[type='checkbox']:checked + label:before {
     transform: rotate(45deg);
     border-radius: 0;
     margin: 0 15px 5px 5px;
+}
+
+.tools {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 375px) {
+    .container {
+        width: 276px;
+    }
+
+    h1 {
+        margin-bottom: 10px;
+        font-size: 24px;
+        color: #000;
+    }
+}
+
+@media (min-width: 376px) and (max-width: 575px) {
+    .container {
+        width: 356px;
+    }
+
+    h1 {
+        margin-bottom: 15px;
+        font-size: 36px;
+        color: orange;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 1080px) {
+    .container {
+        width: 600px;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+        font-size: 36px;
+    }
 }
