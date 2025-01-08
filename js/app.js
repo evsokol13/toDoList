@@ -39,6 +39,7 @@ function delTask() {
 
 function addImportant() {
     const importantButtons = document.querySelectorAll('.important-btn')
+
     importantButtons.forEach((btn) => {
         btn.addEventListener('click', (event) => {
             const index = event.target.dataset.index //индекс из задачи data атрибута
@@ -49,9 +50,47 @@ function addImportant() {
     })
 }
 
-function addEdit() {
+function editTask() {
     const editButtons = document.querySelectorAll('.edit')
 
+    editButtons.forEach((btn) => {
+        btn.addEventListener('click', (event) => {
+            const index = event.target.dataset.index //индекс из задачи data атрибута
+            const taskElement = event.target.closest('li')
+            const label = taskElement.querySelector('label')
+            const input = document.createElement('input')
+            input.type = 'text'
+            input.value = todoList[index].todo
+            input.className = 'edit-input'
+            label.style.display = 'none'
+            taskElement.insertBefore(input, label)
+            input.focus()
+            
+            input.addEventListener('blur', () => {
+                saveChanges(input, label, index)
+            })
+
+            input.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    saveChanges(input, label, index)
+                }
+            })
+        })
+    })
+
+}
+
+function saveChanges(input, label, index) {
+    const newText = input.value.trim()
+
+    if (newText) {
+        todoList[index].todo = newText
+        label.textContent = newText
+        localStorage.setItem('todoList', JSON.stringify(todoList))
+    }
+
+    label.style.display = ''
+    input.remove()
 }
 
 function displayMessages() {
@@ -79,5 +118,6 @@ function displayMessages() {
     todo.innerHTML = displayMessage
     delTask()   
     addImportant()
+    editTask()
 }
 
