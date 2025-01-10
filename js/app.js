@@ -39,6 +39,7 @@ function delTask() {
 
 function addImportant() {
     const importantButtons = document.querySelectorAll('.important-btn')
+
     importantButtons.forEach((btn) => {
         btn.addEventListener('click', (event) => {
             const index = event.target.dataset.index //индекс из задачи data атрибута
@@ -47,6 +48,49 @@ function addImportant() {
             displayMessages()
         })
     })
+}
+
+function editTask() {
+    const editButtons = document.querySelectorAll('.edit')
+
+    editButtons.forEach((btn) => {
+        btn.addEventListener('click', (event) => {
+            const index = event.target.dataset.index //индекс из задачи data атрибута
+            const taskElement = event.target.closest('li')
+            const label = taskElement.querySelector('label')
+            const input = document.createElement('input')
+            input.type = 'text'
+            input.value = todoList[index].todo
+            input.className = 'edit-input'
+            label.style.display = 'none'
+            taskElement.insertBefore(input, label)
+            input.focus()
+            
+            input.addEventListener('blur', () => {
+                saveChanges(input, label, index)
+            })
+
+            input.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    saveChanges(input, label, index)
+                }
+            })
+        })
+    })
+
+}
+
+function saveChanges(input, label, index) {
+    const newText = input.value.trim()
+
+    if (newText) {
+        todoList[index].todo = newText
+        label.textContent = newText
+        localStorage.setItem('todoList', JSON.stringify(todoList))
+    }
+
+    label.style.display = ''
+    input.remove()
 }
 
 function displayMessages() {
@@ -63,44 +107,17 @@ function displayMessages() {
                 <label for='item${i}' class='${item.important ? 'important' : ''}'>
                 ${item.todo}</label>
 
-                <div>
+                <div class="tools">
+                    <img class='edit' data-index='${i}' src='./icons/edit.png' alt='edit'>
                     <img class='important-btn' data-index='${i}' src='./icons/important.png' alt='important'>
                     <img class='delete' data-index='${i}' src='./icons/delete.png' alt='delete'>
                 </div>
             </li>
         `
-
-        todo.innerHTML = displayMessage
-        delTask()   
-        addImportant()
     })
+    todo.innerHTML = displayMessage
+    delTask()   
+    addImportant()
+    editTask()
 }
 
-todo.addEventListener('change', (event) =>{
-    let valueLabel = todo.querySelector(
-        '[for=' + event.target.getAtttribute('id') + ']'
-    ).innerHTML
-
-    todoList.forEach((item, i) => {
-        if (item.todo === valueLabel) {
-            item.checked = !item.checked
-            localStorage.setItem('todo', JSON.stringify(todoList))
-        }
-    })
-})
-
-todo.addEventListener('contextmenu', (event) => {
-    event.preventDefault()
-    todoList.forEach((item, i) => {
-        if (item.todo === event.target.innerHTML) {
-            if (event.todo === event.target.innerHTML) {
-                todoList.slice(i, 1)
-            } else {
-                item.important = !item.important
-            }
-
-            displayMessages()
-            localStorage.setItem('todo', JSON.stringify(todoList))
-        }
-    })
-})
